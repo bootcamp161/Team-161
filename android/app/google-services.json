@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "146381285684",
+    "project_id": "mentorwise-fd520",
+    "storage_bucket": "mentorwise-fd520.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146381285684:android:da3171c93207604b539d61",
+        "android_client_info": {
+          "package_name": "com.example.mentorwise_2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "146381285684-p9q2eq7kli2gc6bv9i3kapemj0cghp74.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mentorwise_2",
+            "certificate_hash": "1f9f44bf462597c368e496da3d5e6b454498b3f4"
+          }
+        },
+        {
+          "client_id": "146381285684-4snr47gvrbli5j7btoekgna81sn868u2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWzGIjfuEvvQiiOifk7xd48QIXmXz1Ass"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "146381285684-4snr47gvrbli5j7btoekgna81sn868u2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
