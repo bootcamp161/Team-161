@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mentorwiseasil/utilities/textStlyeUtitlites.dart';
+import 'package:mentorwiseasil/utilities/color_text_utilities1.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidget({

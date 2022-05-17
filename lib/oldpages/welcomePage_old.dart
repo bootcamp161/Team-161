@@ -1,10 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mentorwiseasil/pages/login_page.dart';
-import 'package:mentorwiseasil/utilities/textStlyeUtitlites.dart';
+import 'package:mentorwiseasil/oldpages/login_page_old.dart';
+import 'package:mentorwiseasil/utilities/color_text_utilities1.dart';
 import 'package:mentorwiseasil/widgets/appBarWidget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import '../pages/login_page.dart';
 
 class OpenPage extends StatefulWidget {
   const OpenPage({Key? key}) : super(key: key);
@@ -37,19 +39,26 @@ class _OpenPageState extends State<OpenPage> {
         body: Column(
           children: [
             Expanded(
-              flex: 4,
+              flex: 5,
               child: Column(
                 children: [
                   _carouselSliderWidget(),
-                  const SizedBox(height: 20),
-                  Padding(padding: const EdgeInsets.symmetric(horizontal: 15.0), child: _textColumn()),
-                  const SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Row(
-                      children: [buildIndicator()],
+                  Spacer(),
+                  Expanded(
+                    flex: 2,
+                    
+                    child: Padding(padding: const EdgeInsets.symmetric(horizontal: 15.0), child: _textColumn())),
+                  Spacer(),
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Row(
+                          children: [buildIndicator()],
+                          ),
                     ),
                   ),
+
                   Expanded(
                     flex: 1,
                     child: Padding(
@@ -62,7 +71,9 @@ class _OpenPageState extends State<OpenPage> {
                             children: [
                               TextButton(
                                   onPressed: () {
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => LogInPage(),));
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => LoginPage2(),
+                                    ));
                                   },
                                   child: Container(
                                     decoration: const ShapeDecoration(
@@ -77,9 +88,7 @@ class _OpenPageState extends State<OpenPage> {
                                     )),
                                   )),
                               TextButton(
-                                  onPressed: () {
-                                    
-                                  },
+                                  onPressed: () {},
                                   child: Container(
                                     decoration: ShapeDecoration(
                                       color: ColorUtilites.mavi,
@@ -108,7 +117,7 @@ class _OpenPageState extends State<OpenPage> {
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -140,7 +149,7 @@ class _OpenPageState extends State<OpenPage> {
           onPageChanged: (index, reason) => setState(
                 (() => activeIndex = index),
               ),
-          height: 250,
+          height: MediaQuery.of(context).size.height /2.5,
           autoPlay: true),
     );
   }

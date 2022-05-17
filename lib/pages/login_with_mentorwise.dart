@@ -2,7 +2,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mentorwiseasil/utilities/textStlyeUtitlites.dart';
+import 'package:mentorwiseasil/utilities/color_text_utilities1.dart';
+import 'package:mentorwiseasil/utilities/icon_utilities.dart';
 
 class LoginWithMentorWise extends StatefulWidget {
   const LoginWithMentorWise({Key? key}) : super(key: key);
@@ -50,10 +51,7 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
                 FocusManager.instance.primaryFocus?.unfocus();
                 Navigator.of(context).pop();
               },
-              icon: const Icon(
-                Icons.chevron_left,
-                color: Colors.black,
-              ),
+              icon: backButton(),
             ),
             elevation: 0,
             backgroundColor: Colors.transparent,
@@ -104,6 +102,7 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
       ),
     );
   }
+
 
   InkWell kaydol() {
     return InkWell(
