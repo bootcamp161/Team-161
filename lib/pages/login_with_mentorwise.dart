@@ -1,14 +1,18 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mentorwiseasil/main.dart';
 import 'package:mentorwiseasil/pages/register_page.dart';
 import 'package:mentorwiseasil/utilities/card_utilites.dart';
 import 'package:mentorwiseasil/utilities/color_text_utilities1.dart';
 import 'package:mentorwiseasil/utilities/icon_utilities.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../oldpages/login_page.dart';
 import '../widgets/appBarWidget.dart';
+import 'login_page_old.dart';
 
 class LoginWithMentorWise extends StatefulWidget {
   const LoginWithMentorWise({Key? key}) : super(key: key);
@@ -33,6 +37,7 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
   @override
   void dispose() {
     _emailController.dispose();
+    _passwordController.dispose();
     _emailController.removeListener(stateListener);
     super.dispose();
   }
@@ -48,7 +53,18 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
       child: SafeArea(
         child: Scaffold(
           backgroundColor: ColorUtilites.white,
-          appBar: logAndSignInAppBar(context),
+          appBar: AppBar(
+            leading: IconButton(
+              onPressed: () {
+                FocusManager.instance.primaryFocus?.unfocus();
+                Navigator.of(context)
+                    .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LogInPage()), (route) => false);
+              },
+              icon: backButton(),
+            ),
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+          ),
           body: Form(
             key: formKey,
             child: SingleChildScrollView(
@@ -94,7 +110,6 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
     );
   }
 
-
   InkWell kaydol() {
     return InkWell(
       onTap: () {
@@ -123,6 +138,7 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
   InkWell girisYap() {
     return InkWell(
       onTap: () {
+        signIn();
         final form = formKey.currentState!;
         FocusManager.instance.primaryFocus?.unfocus();
 
@@ -204,6 +220,25 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
         labelStyle: GoogleFonts.inriaSans(fontSize: 18.sp, color: Colors.grey[600]),
       ),
     );
+  }
+
+  Future signIn() async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+              child: CircularProgressIndicator(),
+            ));
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+    navigatorKey.currentState!.popUntil((route)=> route.isFirst);
   }
 }
 

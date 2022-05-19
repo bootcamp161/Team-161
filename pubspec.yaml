@@ -41,6 +41,11 @@ dependencies:
   # keyboard_dismisser: ^2.0.1
   email_validator: ^2.0.1
   flutter_screenutil: ^5.5.3+1
+  cloud_firestore: ^3.1.15
+  firebase_core: ^1.17.0
+  firebase_auth: ^3.3.18
+  
+  
 
 dev_dependencies:
   flutter_test:

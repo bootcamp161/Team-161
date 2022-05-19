@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mentorwiseasil/oldpages/login_page.dart';
 import 'package:mentorwiseasil/utilities/color_text_utilities1.dart';
 
 import '../utilities/icon_utilities.dart';
@@ -47,7 +48,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           leading: IconButton(
             onPressed: () {
               FocusManager.instance.primaryFocus?.unfocus();
-              Navigator.of(context).pop();
+              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage2()), (route) => false);
             },
             icon: backButton(),
           ),

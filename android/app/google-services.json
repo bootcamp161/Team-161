@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "510542629076",
+    "project_id": "mentor-wise",
+    "storage_bucket": "mentor-wise.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510542629076:android:7b2c698504aa6f2d0f5341",
+        "android_client_info": {
+          "package_name": "com.example.mentorwiseasil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510542629076-rfdqd8abidcapmctrbm8mv25fecdpdql.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAA4B50EDIW6ySL31_gQ6Z9TgWajTQ_t0s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510542629076-rfdqd8abidcapmctrbm8mv25fecdpdql.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

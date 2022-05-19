@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mentorwiseasil/pages/login_with_mentorwise.dart';
 
 import '../utilities/card_utilites.dart';
 import '../utilities/color_text_utilities1.dart';
@@ -47,7 +48,17 @@ class _RegisterPageState extends State<RegisterPage> {
       child: SafeArea(
         child: Scaffold(
           backgroundColor: ColorUtilites.white,
-          appBar: logAndSignInAppBar(context),
+          appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginWithMentorWise()), (route) => false);
+            },
+            icon: backButton(),
+          ),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+        ),
           body: Form(
             key: _formKey,
             child: SingleChildScrollView(

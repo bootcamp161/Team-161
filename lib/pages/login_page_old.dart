@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttericon/brandico_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mentorwiseasil/pages/home_page.dart';
+import 'package:mentorwiseasil/pages/welcome_page.dart';
 import 'package:mentorwiseasil/utilities/color_text_utilities1.dart';
 
 import 'login_with_mentorwise.dart';
@@ -18,7 +21,6 @@ class _LogInPageState extends State<LogInPage> {
   final blueLogoUrl = 'assets/images/logo_for_button.png';
   final logoUrl = 'assets/images/MentorWiseLogo.png';
   final buttonText = 'MentorWise ile giriş yap';
-
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,8 @@ class _LogInPageState extends State<LogInPage> {
     return AppBar(
       leading: IconButton(
         onPressed: () {
-          Navigator.of(context).pop();
+          Navigator.of(context)
+              .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => WelcomePage()), (route) => false);
         },
         icon: const Icon(
           Icons.chevron_left,
@@ -84,9 +87,26 @@ class _LogInPageState extends State<LogInPage> {
       height: 70.h,
       child: InkWell(
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => LoginWithMentorWise(),
-          ));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => StreamBuilder<User?>(
+                  stream: FirebaseAuth.instance.authStateChanges(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator(),);
+                    } else if (snapshot.hasError) {
+                      return const Center(child: Text('Giriş yapılamadı lütfen tekrar deneyin'),);
+                    }
+                    if (snapshot.hasData) {
+                      return HomePage(); // burayı ana sayfa yapmak gerekiyor değiştirmeyi unutma
+                    } else {
+                      return LoginWithMentorWise();
+                    }
+                  }),
+            ),
+            (route) => false,
+          );
         },
         child: Card(
           elevation: 5,
