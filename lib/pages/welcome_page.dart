@@ -1,12 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mentorwiseasil/pages/login_page_old.dart';
 import 'package:mentorwiseasil/utilities/lists.dart';
 import 'package:mentorwiseasil/widgets/appBarWidget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../utilities/color_text_utilities1.dart';
-import 'login_page.dart';
+import '../oldpages/login_page.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -23,22 +25,22 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: ColorUtilites.beyaz,
+        backgroundColor: ColorUtilites.white,
         appBar: const AppBarWidget(),
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0.r),
           child: Column(
             children: [
               Expanded(flex: 8, child: _carouselWidget(context)),
               Expanded(
-                  flex: 3,
+                  flex: 2,
                   child: Padding(
-                    padding: _horizontal8(),
-                    child: _textColumn(),
+                    padding: horizontal8(),
+                    child: _textWrap(),
                   )),
               Expanded(
                   child: Padding(
-                padding: _horizontal8(),
+                padding: horizontal8(),
                 child: Align(alignment: _left, child: buildIndicator()),
               )),
               Spacer(),
@@ -61,20 +63,19 @@ class _WelcomePageState extends State<WelcomePage> {
 
   Alignment get _left => Alignment.centerLeft;
 
-  Column _textColumn() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+  Wrap _textWrap() {
+    return Wrap(
+      alignment: WrapAlignment.center,
         children: [
           Text(
             textList[activeIndex],
-            style: GoogleFonts.alegreya(fontSize: 26),
+            style: GoogleFonts.alegreya(fontSize: 26.sp),
           ),
           // buildIndicator(),
         ]);
   }
 
-  EdgeInsets _horizontal8() => const EdgeInsets.symmetric(horizontal: 8.0);
+  EdgeInsets horizontal8() => EdgeInsets.symmetric(horizontal: 8.0.w);
 
   CarouselSlider _carouselWidget(BuildContext context) {
     return CarouselSlider.builder(
@@ -103,9 +104,9 @@ class _WelcomePageState extends State<WelcomePage> {
         activeIndex: activeIndex,
         count: imageList.length,
         onDotClicked: animateToSlide,
-        effect: const ScrollingDotsEffect(
-          dotHeight: 5,
-          dotWidth: 30,
+        effect: ScrollingDotsEffect(
+          dotHeight: 5.h,
+          dotWidth: 30.w,
         ),
       );
 
@@ -122,7 +123,7 @@ class _GirisButton extends StatelessWidget {
     return TextButton(
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const LoginPage2(),
+            builder: (context) => const LogInPage(),
           ));
         },
         child: Container(
@@ -149,7 +150,7 @@ class _BaslaButton extends StatelessWidget {
         onPressed: () {},
         child: Container(
           decoration: ShapeDecoration(
-            color: ColorUtilites.mavi,
+            color: ColorUtilites.blue,
             shape: const StadiumBorder(side: BorderSide(width: 1, color: Colors.black)),
           ),
           child: Center(
@@ -163,7 +164,7 @@ class _BaslaButton extends StatelessWidget {
               const SizedBox(width: 10),
               Icon(
                 Icons.arrow_forward,
-                color: ColorUtilites.beyaz,
+                color: ColorUtilites.white,
               )
             ],
           )),

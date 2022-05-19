@@ -1,24 +1,23 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mentorwiseasil/pages/register_page.dart';
-import 'package:mentorwiseasil/utilities/card_utilites.dart';
-import 'package:mentorwiseasil/utilities/color_text_utilities1.dart';
-import 'package:mentorwiseasil/utilities/icon_utilities.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
+import '../utilities/card_utilites.dart';
+import '../utilities/color_text_utilities1.dart';
+import '../utilities/icon_utilities.dart';
 import '../widgets/appBarWidget.dart';
 
-class LoginWithMentorWise extends StatefulWidget {
-  const LoginWithMentorWise({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginWithMentorWise> createState() => _LoginWithMentorWiseState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
-  final formKey = GlobalKey<FormState>();
+class _RegisterPageState extends State<RegisterPage> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _passwordRead = true;
@@ -50,7 +49,7 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
           backgroundColor: ColorUtilites.white,
           appBar: logAndSignInAppBar(context),
           body: Form(
-            key: formKey,
+            key: _formKey,
             child: SingleChildScrollView(
               primary: false,
               child: Center(
@@ -76,14 +75,9 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
                             child: girisYap(),
                           ),
                           SizedBox(height: 10.h),
-                          parolamiUnuttum(),
                         ],
                       ),
                     ),
-                    SizedBox(height: 80.h),
-                    Column(
-                      children: [kaydol()],
-                    )
                   ],
                 ),
               ),
@@ -93,7 +87,6 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
       ),
     );
   }
-
 
   InkWell kaydol() {
     return InkWell(
@@ -123,7 +116,7 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
   InkWell girisYap() {
     return InkWell(
       onTap: () {
-        final form = formKey.currentState!;
+        final form = _formKey.currentState!;
         FocusManager.instance.primaryFocus?.unfocus();
 
         if (form.validate()) {
@@ -138,7 +131,7 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
           color: ColorUtilites.blue,
           child: Center(
             child: Text(
-              'Giriş Yap',
+              'Hesap Oluştur',
               style: TextUtilites().ButtonText.copyWith(fontSize: 22.sp),
             ),
           ),
@@ -150,8 +143,6 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
   TextFormField passwordWidget() {
     return TextFormField(
       validator: (password) => password != null && password.length < 5 ? 'Parolanız en az 5 karekter olmalıdır' : null,
-      autofillHints: [AutofillHints.password],
-      onEditingComplete: () => TextInput.finishAutofillContext(),
       obscureText: _passwordRead,
       controller: _passwordController,
       cursorColor: Colors.grey,

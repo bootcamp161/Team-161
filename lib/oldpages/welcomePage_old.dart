@@ -1,12 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mentorwiseasil/oldpages/login_page_old.dart';
+import 'package:mentorwiseasil/pages/login_page_old.dart';
 import 'package:mentorwiseasil/utilities/color_text_utilities1.dart';
 import 'package:mentorwiseasil/widgets/appBarWidget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../pages/login_page.dart';
+import 'login_page.dart';
 
 class OpenPage extends StatefulWidget {
   const OpenPage({Key? key}) : super(key: key);
@@ -34,7 +34,7 @@ class _OpenPageState extends State<OpenPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: ColorUtilites.beyaz,
+        backgroundColor: ColorUtilites.white,
         appBar: const AppBarWidget(),
         body: Column(
           children: [
@@ -91,7 +91,7 @@ class _OpenPageState extends State<OpenPage> {
                                   onPressed: () {},
                                   child: Container(
                                     decoration: ShapeDecoration(
-                                      color: ColorUtilites.mavi,
+                                      color: ColorUtilites.blue,
                                       shape: const StadiumBorder(side: BorderSide(width: 1, color: Colors.black)),
                                     ),
                                     width: 173,
@@ -107,7 +107,7 @@ class _OpenPageState extends State<OpenPage> {
                                         const SizedBox(width: 10),
                                         Icon(
                                           Icons.arrow_forward,
-                                          color: ColorUtilites.beyaz,
+                                          color: ColorUtilites.white,
                                         )
                                       ],
                                     )),

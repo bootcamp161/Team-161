@@ -11,3 +11,5 @@ final imageList = [
     '24 saat içinde mentorlük talebin karşılansın.',
     'Deneyim sahibi kişilerin tecrübelerini anlattığı yazıları oku.',
   ];
+
+  
