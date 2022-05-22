@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttericon/brandico_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mentorwiseasil/pages/home_page.dart';
 import 'package:mentorwiseasil/pages/welcome_page.dart';
 import 'package:mentorwiseasil/utilities/color_text_utilities1.dart';
@@ -22,8 +23,10 @@ class _LogInPageState extends State<LogInPage> {
   final logoUrl = 'assets/images/MentorWiseLogo.png';
   final buttonText = 'MentorWise ile giriş yap';
 
+
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Scaffold(
         appBar: backAppBar(context),
@@ -40,15 +43,21 @@ class _LogInPageState extends State<LogInPage> {
                     width: 200.w,
                     child: Image.asset(logoUrl),
                   ),
-                  mentorWiseButton(context),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25.0.w),
+                    child: mentorWiseButton(context),
+                  ),
                   SizedBox(height: 15.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      facebookButton(),
-                      SizedBox(width: 10.w),
-                      googleButton(),
-                    ],
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25.0.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Expanded(child: facebookButton()),
+                        // SizedBox(width: 10.w),
+                        Expanded(child: googleButton()),
+                      ],
+                    ),
                   )
                 ]),
               ),
@@ -83,8 +92,7 @@ class _LogInPageState extends State<LogInPage> {
 
   SizedBox mentorWiseButton(BuildContext context) {
     return SizedBox(
-      width: 320.w,
-      height: 70.h,
+      height: 80.h,
       child: InkWell(
         onTap: () {
           Navigator.pushAndRemoveUntil(
@@ -94,9 +102,13 @@ class _LogInPageState extends State<LogInPage> {
                   stream: FirebaseAuth.instance.authStateChanges(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator(),);
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
                     } else if (snapshot.hasError) {
-                      return const Center(child: Text('Giriş yapılamadı lütfen tekrar deneyin'),);
+                      return const Center(
+                        child: Text('Giriş yapılamadı lütfen tekrar deneyin'),
+                      );
                     }
                     if (snapshot.hasData) {
                       return HomePage(); // burayı ana sayfa yapmak gerekiyor değiştirmeyi unutma
@@ -118,7 +130,7 @@ class _LogInPageState extends State<LogInPage> {
             ),
             Text(
               buttonText,
-              style: TextUtilites().ButtonText.copyWith(fontSize: 20.sp),
+              style: TextUtilites().ButtonText.copyWith(fontSize: 22.sp),
             ),
           ]),
         ),
@@ -128,8 +140,7 @@ class _LogInPageState extends State<LogInPage> {
 
   SizedBox facebookButton() {
     return SizedBox(
-        width: 155.w,
-        height: 70.h,
+        height: 80.h,
         child: Card(
           elevation: 5,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r), side: const BorderSide()),
@@ -141,19 +152,31 @@ class _LogInPageState extends State<LogInPage> {
         ));
   }
 
-  SizedBox googleButton() {
-    return SizedBox(
-        width: 155.w,
-        height: 70.h,
-        child: Card(
-          elevation: 5,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r), side: const BorderSide()),
-          child: Icon(
-            FontAwesome.google,
-            color: ColorUtilites.red,
-            size: 40.sp,
-          ),
-        ));
+  InkWell googleButton() {
+    return InkWell(
+      onTap: ()  {
+      },
+      child: SizedBox(
+          height: 80.h,
+          child: Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r), side: const BorderSide()),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  FontAwesome.google,
+                  color: ColorUtilites.red,
+                  size: 40.sp,
+                ),
+                Text(
+                  ' Google ile giriş yap',
+                  style: TextUtilites().ButtonText.copyWith(fontSize: 22.sp, color: Colors.black),
+                ),
+              ],
+            ),
+          )),
+    );
   }
 
   Wrap _bottomText() {

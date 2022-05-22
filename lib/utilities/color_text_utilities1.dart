@@ -14,4 +14,5 @@ class ColorUtilites {
   static Color red = const Color(0xffF24E1E);
   static Color textFieldBorderColor = const Color(0xff878787);
   static Color black = Colors.black;
+  static Color grey = const Color(0xff848484);
 }

@@ -21,6 +21,8 @@ class _WelcomePageState extends State<WelcomePage> {
   final controller = CarouselController();
   int activeIndex = 0;
 
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

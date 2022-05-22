@@ -78,14 +78,10 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           LogoWidget(),
-                          Container(
-                            color: ColorUtilites.red,
-                            child: _error.length > 1 ?  Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(_error),
-                            ): SizedBox() ,
+                          errorMessage(),
+                          SizedBox(
+                            height: 20.h,
                           ),
-                          SizedBox(height: 20.h,),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 25.0.w),
                             child: emailWidget(),
@@ -136,7 +132,9 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
 
   InkWell parolamiUnuttum() {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, '/password');
+      },
       child: Text(
         'Parolanızı mı unuttunuz?',
         style: GoogleFonts.inriaSans(color: const Color(0xff5E5E5E), fontSize: 18.sp),
@@ -255,6 +253,45 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
       print(e);
     }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
+  }
+
+  errorMessage() {
+    if (_error.length > 1) {
+      return Container(
+        color: Colors.red,
+        child: Padding(
+          padding: EdgeInsets.all(8.0.r),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(flex: 9, child: Wrap(children: [Text(_error)])),
+              Expanded(
+                flex: 1,
+                child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _error = '';
+                      });
+                    },
+                    icon: iconClear()),
+              )
+            ],
+          ),
+        ),
+      );
+    } else {
+      return const SizedBox(height: 0);
+    }
+
+    // Container(
+    //   color: ColorUtilites.red,
+    //   child: _error.length > 1
+    //       ? Padding(
+    //           padding: const EdgeInsets.all(8.0),
+    //           child: Text(_error),
+    //         )
+    //       : SizedBox(),
+    // );
   }
 }
 
