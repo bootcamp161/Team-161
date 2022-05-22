@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttericon/brandico_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mentorwiseasil/pages/google_sign_in.dart';
 import 'package:mentorwiseasil/pages/home_page.dart';
 import 'package:mentorwiseasil/pages/welcome_page.dart';
 import 'package:mentorwiseasil/utilities/color_text_utilities1.dart';
@@ -22,11 +24,23 @@ class _LogInPageState extends State<LogInPage> {
   final blueLogoUrl = 'assets/images/logo_for_button.png';
   final logoUrl = 'assets/images/MentorWiseLogo.png';
   final buttonText = 'MentorWise ile giriş yap';
+  bool isFirebaseInitialized = false;
 
+  @override
+  void initState() {
+    initializeFirebase();
+    super.initState();
+  }
+
+  Future<void> initializeFirebase() async {
+    await Firebase.initializeApp();
+    setState(() {
+      isFirebaseInitialized = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
         appBar: backAppBar(context),
@@ -154,7 +168,11 @@ class _LogInPageState extends State<LogInPage> {
 
   InkWell googleButton() {
     return InkWell(
-      onTap: ()  {
+      onTap: () async {
+        await signInWithGoogle();
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ));
       },
       child: SizedBox(
           height: 80.h,

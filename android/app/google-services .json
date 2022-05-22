@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "510542629076-l3upiqkjj1f65spah3oe5vcmo1ecqhqh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mentorwiseasil",
+            "certificate_hash": "1f9f44bf462597c368e496da3d5e6b454498b3f4"
+          }
+        },
+        {
           "client_id": "510542629076-rfdqd8abidcapmctrbm8mv25fecdpdql.apps.googleusercontent.com",
           "client_type": 3
         }
