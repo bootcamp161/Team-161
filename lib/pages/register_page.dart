@@ -1,10 +1,15 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mentorwiseasil/pages/home_page.dart';
 import 'package:mentorwiseasil/pages/login_with_mentorwise.dart';
+import 'package:mentorwiseasil/pages/welcome_page.dart';
+import 'package:mentorwiseasil/utilities/utils.dart';
 
+import '../main.dart';
 import '../utilities/card_utilites.dart';
 import '../utilities/color_text_utilities1.dart';
 import '../utilities/icon_utilities.dart';
@@ -22,6 +27,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _passwordRead = true;
+  String _error = '';
 
   @override
   void initState() {
@@ -49,16 +55,17 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Scaffold(
           backgroundColor: ColorUtilites.white,
           appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              FocusManager.instance.primaryFocus?.unfocus();
-              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginWithMentorWise()), (route) => false);
-            },
-            icon: backButton(),
+            leading: IconButton(
+              onPressed: () {
+                FocusManager.instance.primaryFocus?.unfocus();
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => LoginWithMentorWise()), (route) => false);
+              },
+              icon: backButton(),
+            ),
+            elevation: 0,
+            backgroundColor: Colors.transparent,
           ),
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-        ),
           body: Form(
             key: _formKey,
             child: SingleChildScrollView(
@@ -83,7 +90,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           SizedBox(height: 10.h),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-                            child: girisYap(),
+                            child: kayitOl(),
                           ),
                           SizedBox(height: 10.h),
                         ],
@@ -99,40 +106,18 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  InkWell kaydol() {
+  InkWell kayitOl() {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => RegisterPage(),
-        ));
-      },
-      child: Text(
-        'Hesabınız mı yok? Şimdi Kaydolun.',
-        style: GoogleFonts.inriaSans(
-            color: const Color(0xff424242), fontSize: 20.sp, decoration: TextDecoration.underline),
-      ),
-    );
-  }
-
-  InkWell parolamiUnuttum() {
-    return InkWell(
-      onTap: () {},
-      child: Text(
-        'Parolanızı mı unuttunuz?',
-        style: GoogleFonts.inriaSans(color: const Color(0xff5E5E5E), fontSize: 18.sp),
-      ),
-    );
-  }
-
-  InkWell girisYap() {
-    return InkWell(
-      onTap: () {
-        final form = _formKey.currentState!;
+        signUpMethod();
+        // signUp();
+        // final form = _formKey.currentState!;
         FocusManager.instance.primaryFocus?.unfocus();
 
-        if (form.validate()) {
-          TextInput.finishAutofillContext();
-        }
+        // if (form.validate()) {
+        //   TextInput.finishAutofillContext();
+        //   form.save();
+        // }
       },
       child: SizedBox(
         height: 60.h,
@@ -153,7 +138,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   TextFormField passwordWidget() {
     return TextFormField(
-      validator: (password) => password != null && password.length < 5 ? 'Parolanız en az 5 karekter olmalıdır' : null,
+      validator: (password) => password != null && password.length < 6 ? 'Parolanız en az 6 karekter olmalıdır' : null,
       obscureText: _passwordRead,
       controller: _passwordController,
       cursorColor: Colors.grey,
@@ -182,6 +167,8 @@ class _RegisterPageState extends State<RegisterPage> {
     return TextFormField(
       validator: (email) => email != null && !EmailValidator.validate(email) ? 'Geçerli bir e-posta giriniz' : null,
       autofillHints: const [AutofillHints.email],
+      textInputAction: TextInputAction.next,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: TextInputType.emailAddress,
       controller: _emailController,
       cursorColor: Colors.grey,
@@ -206,6 +193,65 @@ class _RegisterPageState extends State<RegisterPage> {
         labelStyle: GoogleFonts.inriaSans(fontSize: 18.sp, color: Colors.grey[600]),
       ),
     );
+  }
+
+  Future signUpMethod() async {
+    final isValid = _formKey.currentState!.validate();
+    if (!isValid) return;
+
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+              child: CircularProgressIndicator(),
+            ));
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+    } on FirebaseAuthException catch (e) {
+      print(e);
+      setState(() {
+        _error = '${e.message}';
+      });
+      Utils.showSnackBar(e.message);
+    }
+    _error.length > 1
+        ? navigatorKey.currentState!.popAndPushNamed('/register')
+        : navigatorKey.currentState!
+            .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
+  }
+
+  Future signUpOld() async {
+    final isValid = _formKey.currentState!.validate();
+    if (isValid) {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const Center(
+                child: CircularProgressIndicator(),
+              ));
+      try {
+        await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim(),
+            )
+            .whenComplete(() => Navigator.of(context)
+                .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomePage()), (route) => false));
+      } on FirebaseAuthException catch (error) {
+        print(error.message);
+        print('hata');
+        AlertDialog(
+          title: Text('${error.message}'),
+        );
+        Utils.showSnackBar(error.message);
+      }
+      navigatorKey.currentState!.popUntil((route) => route.isFirst);
+      // navigatorKey.currentState!
+      //     .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
+    }
   }
 }
 

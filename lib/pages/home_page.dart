@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mentorwiseasil/pages/welcome_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,14 +15,16 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(children: [
-          TextButton(
-            
-            onPressed: () { 
-              FirebaseAuth.instance.signOut();
-             },
-            child: Text(user.email!))
-        ]),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Hoş geldin ${user.email}', style: Theme.of(context).textTheme.headline5,),
+            TextButton(onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => WelcomePage()), (route) => false);
+                FirebaseAuth.instance.signOut();
+            }, child: const Text('Çıkış Yap'))
+          ],
+        ),
       ),
     );
   }

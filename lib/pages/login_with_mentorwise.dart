@@ -26,6 +26,7 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _passwordRead = true;
+  String _error = '';
 
   @override
   void initState() {
@@ -77,6 +78,14 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           LogoWidget(),
+                          Container(
+                            color: ColorUtilites.red,
+                            child: _error.length > 1 ?  Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(_error),
+                            ): SizedBox() ,
+                          ),
+                          SizedBox(height: 20.h,),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 25.0.w),
                             child: emailWidget(),
@@ -138,7 +147,10 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
   InkWell girisYap() {
     return InkWell(
       onTap: () {
-        signIn();
+        setState(() {
+          signIn();
+        });
+        // signIn();
         final form = formKey.currentState!;
         FocusManager.instance.primaryFocus?.unfocus();
 
@@ -165,7 +177,7 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
 
   TextFormField passwordWidget() {
     return TextFormField(
-      validator: (password) => password != null && password.length < 5 ? 'Parolanız en az 5 karekter olmalıdır' : null,
+      validator: (password) => password != null && password.length < 6 ? 'Parolanız en az 6 karekter olmalıdır' : null,
       autofillHints: [AutofillHints.password],
       onEditingComplete: () => TextInput.finishAutofillContext(),
       obscureText: _passwordRead,
@@ -196,6 +208,7 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
     return TextFormField(
       validator: (email) => email != null && !EmailValidator.validate(email) ? 'Geçerli bir e-posta giriniz' : null,
       autofillHints: const [AutofillHints.email],
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: TextInputType.emailAddress,
       controller: _emailController,
       cursorColor: Colors.grey,
@@ -226,7 +239,7 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(
+        builder: (context) => const Center(
               child: CircularProgressIndicator(),
             ));
 
@@ -236,9 +249,12 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
         password: _passwordController.text.trim(),
       );
     } on FirebaseAuthException catch (e) {
+      setState(() {
+        _error = '${e.message}';
+      });
       print(e);
     }
-    navigatorKey.currentState!.popUntil((route)=> route.isFirst);
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }
 
