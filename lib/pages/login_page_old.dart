@@ -6,12 +6,12 @@ import 'package:fluttericon/brandico_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:mentorwiseasil/pages/google_sign_in.dart';
-import 'package:mentorwiseasil/pages/home_page.dart';
+import 'package:mentorwiseasil/google_sign_in.dart';
 import 'package:mentorwiseasil/pages/welcome_page.dart';
 import 'package:mentorwiseasil/utilities/color_text_utilities1.dart';
 
-import 'login_with_mentorwise.dart';
+import 'package:mentorwiseasil/pages/bottom_navigator.dart';
+import 'package:mentorwiseasil/pages/login_with_mentorwise.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({Key? key}) : super(key: key);

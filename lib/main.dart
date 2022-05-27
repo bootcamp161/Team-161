@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mentorwiseasil/pages/blog_page.dart';
+import 'package:mentorwiseasil/pages/chat_page.dart';
 import 'package:mentorwiseasil/pages/forgot_password.dart';
-import 'package:mentorwiseasil/pages/home_page.dart';
+import 'package:mentorwiseasil/oldpages/home_page.dart';
+import 'package:mentorwiseasil/pages/bottom_navigator.dart';
 import 'package:mentorwiseasil/pages/login_page_old.dart';
 import 'package:mentorwiseasil/oldpages/welcomePage_old.dart';
 import 'package:mentorwiseasil/oldpages/login_page.dart';
@@ -30,6 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       builder: (context, child) => MaterialApp(
+        
         initialRoute: '/',
         routes: {
           '/start': (context) => const WelcomePage(),
@@ -37,12 +41,16 @@ class MyApp extends StatelessWidget {
           '/login':(context) => const LoginWithMentorWise(),
           '/password':(context) => const ForgotPassword(),
           '/register':(context) =>  const RegisterPage(),
-          '/home':(context) => const HomePage(),
+          '/home2':(context) => const HomePage1(),
+          '/home': (context) => HomePage(),
+          '/blog':(context) => BlogPage(),
+          '/message':(context) => ChatPage(),
         },
         scaffoldMessengerKey: Utils.messengerKey,
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         home: WelcomePage(),
+        
     
       ),
       designSize: Size(411, 731),

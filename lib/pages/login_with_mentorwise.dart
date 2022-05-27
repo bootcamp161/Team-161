@@ -11,7 +11,9 @@ import 'package:mentorwiseasil/utilities/icon_utilities.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../oldpages/login_page.dart';
+import '../utilities/utils.dart';
 import '../widgets/appBarWidget.dart';
+import 'bottom_navigator.dart';
 import 'login_page_old.dart';
 
 class LoginWithMentorWise extends StatefulWidget {
@@ -78,7 +80,7 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           LogoWidget(),
-                          errorMessage(),
+                          // errorMessage(),
                           SizedBox(
                             height: 20.h,
                           ),
@@ -133,7 +135,7 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
   InkWell parolamiUnuttum() {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/password');
+        Navigator.of(context).pushNamed('/password');
       },
       child: Text(
         'Parolanızı mı unuttunuz?',
@@ -251,8 +253,13 @@ class _LoginWithMentorWiseState extends State<LoginWithMentorWise> {
         _error = '${e.message}';
       });
       print(e);
+      Utils.showSnackBar(e.message);
+
     }
-    navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    _error.length > 1
+        ? navigatorKey.currentState!.popAndPushNamed('/login')
+        : navigatorKey.currentState!
+            .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
   }
 
   errorMessage() {

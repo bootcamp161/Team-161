@@ -4,16 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mentorwiseasil/pages/home_page.dart';
+import 'package:mentorwiseasil/oldpages/home_page.dart';
 import 'package:mentorwiseasil/pages/login_with_mentorwise.dart';
 import 'package:mentorwiseasil/pages/welcome_page.dart';
 import 'package:mentorwiseasil/utilities/utils.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../main.dart';
 import '../utilities/card_utilites.dart';
 import '../utilities/color_text_utilities1.dart';
 import '../utilities/icon_utilities.dart';
 import '../widgets/appBarWidget.dart';
+import 'bottom_navigator.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -26,6 +27,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+
   bool _passwordRead = true;
   String _error = '';
 
@@ -40,7 +43,16 @@ class _RegisterPageState extends State<RegisterPage> {
   void dispose() {
     _emailController.dispose();
     _emailController.removeListener(stateListener);
+    _passwordController.dispose();
+    _nameController.dispose();
     super.dispose();
+  }
+
+  Future userDetails(String name, String email) async {
+    await FirebaseFirestore.instance.collection('users').add({
+      'name': name,
+      'email': email,
+    });
   }
 
   void stateListener() => setState(() {});
@@ -80,6 +92,11 @@ class _RegisterPageState extends State<RegisterPage> {
                           LogoWidget(),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 25.0.w),
+                            child: nameWidget(),
+                          ),
+                          SizedBox(height: 20.h),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 25.0.w),
                             child: emailWidget(),
                           ),
                           SizedBox(height: 20.h),
@@ -102,6 +119,30 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  TextFormField nameWidget() {
+    return TextFormField(
+      // validator: (email) => email != null && !EmailValidator.validate(email) ? 'Geçerli bir e-posta giriniz' : null,
+      autofillHints: const [AutofillHints.email],
+      textInputAction: TextInputAction.next,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+
+      controller: _nameController,
+      cursorColor: Colors.grey,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: ColorUtilites.textFieldBorderColor),
+          borderRadius: borderRadiusC,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: ColorUtilites.black),
+          borderRadius: borderRadiusC,
+        ),
+        labelText: 'İsim',
+        labelStyle: GoogleFonts.inriaSans(fontSize: 18.sp, color: Colors.grey[600]),
       ),
     );
   }
@@ -141,10 +182,13 @@ class _RegisterPageState extends State<RegisterPage> {
       validator: (password) => password != null && password.length < 6 ? 'Parolanız en az 6 karekter olmalıdır' : null,
       obscureText: _passwordRead,
       controller: _passwordController,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       cursorColor: Colors.grey,
       decoration: InputDecoration(
-          focusedBorder:
-              OutlineInputBorder(borderSide: BorderSide(color: ColorUtilites.black), borderRadius: borderRadiusC),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: ColorUtilites.black),
+            borderRadius: borderRadiusC,
+          ),
           border: OutlineInputBorder(
             borderSide: BorderSide(color: ColorUtilites.textFieldBorderColor),
             borderRadius: borderRadiusC,
@@ -210,13 +254,18 @@ class _RegisterPageState extends State<RegisterPage> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+      userDetails(_nameController.text.trim(), _emailController.text.trim());
+
     } on FirebaseAuthException catch (e) {
+      userDetails(_nameController.text.trim(), _emailController.text.trim());
+
       print(e);
       setState(() {
         _error = '${e.message}';
       });
       Utils.showSnackBar(e.message);
     }
+
     _error.length > 1
         ? navigatorKey.currentState!.popAndPushNamed('/register')
         : navigatorKey.currentState!
@@ -239,7 +288,7 @@ class _RegisterPageState extends State<RegisterPage> {
               password: _passwordController.text.trim(),
             )
             .whenComplete(() => Navigator.of(context)
-                .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomePage()), (route) => false));
+                .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomePage1()), (route) => false));
       } on FirebaseAuthException catch (error) {
         print(error.message);
         print('hata');
