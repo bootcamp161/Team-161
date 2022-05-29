@@ -12,4 +12,6 @@ final imageList = [
     'Deneyim sahibi kişilerin tecrübelerini anlattığı yazıları oku.',
   ];
 
-  
+  final mentorIDs = [];
+
+  final lastBlog = [];

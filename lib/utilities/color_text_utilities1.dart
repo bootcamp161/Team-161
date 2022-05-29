@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TextUtilites {
@@ -16,3 +17,6 @@ class ColorUtilites {
   static Color black = Colors.black;
   static Color grey = const Color(0xff848484);
 }
+
+var baslikStyle = GoogleFonts.amiri(color: Colors.black, fontSize: 25.sp);
+var baslikStyleBold = GoogleFonts.amiri(color: Colors.black, fontSize: 25.sp, fontWeight: FontWeight.bold);

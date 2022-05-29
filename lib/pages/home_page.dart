@@ -1,16 +1,23 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mentorwiseasil/pages/welcome_page.dart';
+import 'package:mentorwiseasil/utilities/lists.dart';
+import 'package:mentorwiseasil/widgets/get_mentor_data.dart';
 import 'package:mentorwiseasil/widgets/get_user_name.dart';
 
 class HomePage2 extends StatefulWidget {
   HomePage2({
     Key? key,
   }) : super(key: key);
+
+  // List mentorIDs;
 
   @override
   State<HomePage2> createState() => _HomePage2State();
@@ -21,25 +28,22 @@ class _HomePage2State extends State<HomePage2> {
 
   final Stream<QuerySnapshot> users = FirebaseFirestore.instance.collection('users').snapshots();
 
-  List<String> names = [
-    'Ali Kılıç',
-    'Metin Yalçın',
-    'Rıza Kemer',
-    'Feyyaz Cihan',
-    'Mahmut Paşa',
-    'Vedat Baran',
-  ];
-
   Future getDocId() async {
     await FirebaseFirestore.instance.collection('users').get().then((snapshot) => snapshot.docs.forEach((element) {
-          print(element.reference);
+          // print(element.reference);
           docIDs.add(element.reference.id);
         }));
   }
 
-  List<String> docIDs = [];
+  Future getMentorId() async {
+    await FirebaseFirestore.instance.collection('mentors').get().then((snapshot) => snapshot.docs.forEach((element) {
+          mentorIDs.add(element.reference.id);
+        }));
+  }
 
  
+
+  List<String> docIDs = [];
 
   @override
   Widget build(BuildContext context) {
@@ -94,34 +98,29 @@ class _HomePage2State extends State<HomePage2> {
           children: [
             Expanded(
                 flex: 3,
-                child: Row(
+                child: Wrap(
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Selam ',
-                              style: baslikStyle,
-                            ),
-                            Text(
-                              '${user.email}',
-                              style: baslikStyleBold,
-                            ),
-                          ],
+                        Text(
+                          'Selam ',
+                          style: baslikStyle,
                         ),
                         Text(
-                          'Favori mentörünü bul..',
-                          style: baslikStyle,
+                          '${user.email}',
+                          style: baslikStyleBold,
                         ),
                       ],
                     ),
+                    Text(
+                      'Favori mentörünü bul..',
+                      style: baslikStyle,
+                    ),
                   ],
                 )),
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height * 0.35,
-              color: Colors.white,
               child: Column(
                 children: [
                   Row(
@@ -134,45 +133,47 @@ class _HomePage2State extends State<HomePage2> {
                   ),
                   Expanded(
                       child: FutureBuilder(
-                        future: getDocId(),
-                        builder: (context, snapshot) {
-                          return ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                var containers = names
-                                    .map((name) => Container(
-                                          child: Padding(
-                                            padding: EdgeInsets.only(right: 30.0.r),
-                                            child: InkWell(
-                                              onTap: () {
-                                                print('tıklandı');
-                                              },
-                                              child: Container(
-                                                  width: 170.w,
-                                                  height: 200.h,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.red, borderRadius: BorderRadius.circular(15.r)),
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(8.0.r),
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      children: [
-                                                        const CircleAvatar(
-                                                          radius: 50,
-                                                        ),
-                                                        ListTile(title: GetUserName(documentId: docIDs[index]),),
-                                                      ],
-                                                    ),
-                                                  )),
+                          future: getMentorId(),
+                          builder: (context, snapshot) {
+                            return ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  var containers = mentorIDs
+                                      .map((name) => Container(
+                                            child: Padding(
+                                              padding: EdgeInsets.only(right: 30.0.r),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  print('tıklandı');
+                                                },
+                                                child: Container(
+                                                    width: 170.w,
+                                                    height: 200.h,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.red, borderRadius: BorderRadius.circular(15.r)),
+                                                    child: Padding(
+                                                      padding: EdgeInsets.all(8.0.r),
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        children: [
+                                                          SizedBox(
+                                                              width: 100,
+                                                              height: 100,
+                                                              child: GetMentorImage(documentId: mentorIDs[index])),
+                                                          ListTile(
+                                                            title: GetMentorName(documentId: mentorIDs[index]),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )),
+                                              ),
                                             ),
-                                          ),
-                                        ))
-                                    .toList();
-                                return containers[index];
-                              },
-                              itemCount: docIDs.length);
-                        }
-                      )),
+                                          ))
+                                      .toList();
+                                  return containers[index];
+                                },
+                                itemCount: mentorIDs.toList().toSet().length);
+                          })),
                 ],
               ),
             ),
@@ -210,7 +211,7 @@ class _HomePage2State extends State<HomePage2> {
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'My name is ${data.docs[index]['name']} and my email is ${data.docs[index]['email']}'),
+                                    'My name is ${data.docs[index]['name']} and my email is ${data.docs[index]['email']}'),
                               );
                             },
                           );

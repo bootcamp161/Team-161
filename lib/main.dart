@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mentorwiseasil/pages/blog_page.dart';
+import 'package:mentorwiseasil/pages/blog_text.dart';
 import 'package:mentorwiseasil/pages/chat_page.dart';
 import 'package:mentorwiseasil/pages/forgot_password.dart';
 import 'package:mentorwiseasil/oldpages/home_page.dart';
