@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:mentorwiseasil/widgets/firebase_file.dart';
 
 class FirebaseApi {
+
+  final user = FirebaseAuth.instance.currentUser!;
   static Future<List<String>> _getDowlandLinks(List<Reference> refs) =>
       Future.wait(refs.map((ref) => ref.getDownloadURL()).toList());
 

@@ -1,120 +1,131 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:mentorwiseasil/utilities/color_text_utilities1.dart';
+import 'package:mentorwiseasil/utilities/icon_utilities.dart';
+import 'package:mentorwiseasil/utilities/lists.dart';
 
-import '../utilities/icon_utilities.dart';
+import '../widgets/get_mentor_data.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+  const ChatPage({Key? key, required this.index}) : super(key: key);
+  final int index;
 
   @override
   State<ChatPage> createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
-  bool newMessage = false;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              FocusManager.instance.primaryFocus?.unfocus();
-              Navigator.of(context).pop();
-            },
-            icon: backButton(),
-          ),
-          centerTitle: true,
-          title: Text(
-            'Mesajlar',
-            style: GoogleFonts.abhayaLibre(fontSize: 35.sp, color: Colors.black),
-          ),
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-        ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-          child: Center(
-            child: Column(
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+                onPressed: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  Navigator.of(context).pop();
+                },
+                icon: backButton()),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            title: Row(
               children: [
-                aramaCubugu(),
+                SizedBox(width: 60, height: 50, child: GetMentorImage(documentId: mentorIDs[widget.index])),
                 SizedBox(
-                  height: 20.h,
+                  width: 20,
                 ),
+                GetMentorName(documentId: mentorIDs[widget.index]),
+              ],
+            ),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
                 Expanded(
-                  child: ListView.separated(
-                    itemBuilder: ((context, index) {
-                      return Container(
-                        height: MediaQuery.of(context).size.height * 0.15,
-                        width: double.infinity,
-                        child: InkWell(
-                          onTap: () {},
-                          child: Row(
-                            children: [
-                              const CircleAvatar(
-                                radius: 30,
+                  child: ListView(
+                    // mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          SizedBox(width: 45, height: 45, child: GetMentorImage(documentId: mentorIDs[widget.index])),
+                          SizedBox(width: 10),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(20)),
+                            child: Wrap(children: [
+                              Text(
+                                'Merhaba, ismim ',
+                                style: baslikStyle.copyWith(fontSize: 20),
                               ),
-                              SizedBox(
-                                width: 40.w,
+                              GetMentorProfileName(documentId: mentorIDs[widget.index]),
+                              Text(
+                                'öncelikle uygulamamızın ilk kullanıcılarından biri olduğunuz için teşekkür ederim.',
+                                style: baslikStyle.copyWith(fontSize: 20),
                               ),
-                              Expanded(
-                                  child: Container(
-                                      // color: Colors.blue,
-                                      child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text('Yazar İsmi',
-                                      style: GoogleFonts.abhayaLibre(fontSize: 18, fontWeight: FontWeight.bold)),
-                                  Text('Mesleği'),
-                                ],
-                              ))),
-                              SizedBox(
-                                width: 30.w,
-                              ),
-                              if (newMessage) Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: Colors.red,
-                                      ),
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text('Yeni Mesaj'),
-                                      )) else const SizedBox(),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              Text('5dk önce')
-                            ],
+                            ]),
                           ),
-                        ),
-                      );
-                    }),
-                    itemCount: 5,
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Divider();
-                    },
+                        ],
+                      ),
+                      SizedBox(height: 5),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(width: 45, height: 45, child: GetMentorImage(documentId: mentorIDs[widget.index])),
+                          SizedBox(width: 10),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(20)),
+                            child: Wrap(children: [
+                              Text(
+                                'Uygulama henüz test aşamasında olduğu için mentorluk seanslarımız sırasında teknik bir aksaklık yaşamamak adına kısa bir süreliğine farklı bir platformdan iletişim kurabiliriz sizinle iletişim bilgilerimi paylaşıyorum dilediğiniz zaman ulaşabilirsiniz.',
+                                style: baslikStyle.copyWith(fontSize: 20),
+                              ),
+                              Text(
+                                'Mail adresim:',
+                                style: baslikStyle.copyWith(fontSize: 20),
+                              ),
+                              GetMentorContact(documentId: mentorIDs[widget.index]),
+                              Text('Telefon numaram: ', style: baslikStyle.copyWith(fontSize: 20)),
+                              Text(widget.index.isEven ? '+905522294869' : '+905539237749', style: baslikStyleBold.copyWith(fontSize: 20))
+                            ]),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color(0xffD9D9D9),
+                  ),
+                  width: double.infinity,
+                  child: TextFormField(
+
+                     enabled: false,
+                    decoration: InputDecoration(
+                      suffixIcon: Icon(Icons.send),
+                      prefixIcon: Icon(Icons.emoji_emotions_outlined),
+                      hintStyle: baslikStyle.copyWith(fontSize: 15),
+                      hintText: 'Anlayışınız için teşekkürler',
+                      border: InputBorder.none,
+                    ),
+                  ),
+                )
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Container aramaCubugu() {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.r),
-        color: Color(0xffE2E2E2),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(9.0.r),
-        child: const Align(alignment: Alignment.centerRight, child: Icon(Icons.search)),
       ),
     );
   }

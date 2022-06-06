@@ -56,3 +56,17 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           backgroundColor: Colors.transparent,
         );
   }
+
+  AppBar mentorolappbar(BuildContext context) {
+    return AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title: Text('MentorWise', style: GoogleFonts.merriweather(fontSize: 25.sp, color: const Color(0xff6367BA))),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: backButton()),
+      );
+  }

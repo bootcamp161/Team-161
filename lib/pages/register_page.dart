@@ -255,6 +255,7 @@ class _RegisterPageState extends State<RegisterPage> {
         password: _passwordController.text.trim(),
       );
       userDetails(_nameController.text.trim(), _emailController.text.trim());
+      FirebaseAuth.instance.currentUser!.updateDisplayName(_nameController.text);
 
     } on FirebaseAuthException catch (e) {
       userDetails(_nameController.text.trim(), _emailController.text.trim());

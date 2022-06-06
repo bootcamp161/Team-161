@@ -2,10 +2,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mentorwiseasil/pages/blog_page.dart';
 import 'package:mentorwiseasil/pages/login_page_old.dart';
+import 'package:mentorwiseasil/pages/profile_page.dart';
 import 'package:mentorwiseasil/utilities/lists.dart';
 import 'package:mentorwiseasil/widgets/appBarWidget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import '../utilities/lists.dart';
 
 import '../utilities/color_text_utilities1.dart';
 import '../oldpages/login_page.dart';
@@ -21,7 +24,7 @@ class _WelcomePageState extends State<WelcomePage> {
   final controller = CarouselController();
   int activeIndex = 0;
 
-
+  
 
   @override
   Widget build(BuildContext context) {
@@ -66,15 +69,13 @@ class _WelcomePageState extends State<WelcomePage> {
   Alignment get _left => Alignment.centerLeft;
 
   Wrap _textWrap() {
-    return Wrap(
-      alignment: WrapAlignment.center,
-        children: [
-          Text(
-            textList[activeIndex],
-            style: GoogleFonts.alegreya(fontSize: 26.sp),
-          ),
-          // buildIndicator(),
-        ]);
+    return Wrap(alignment: WrapAlignment.center, children: [
+      Text(
+        textList[activeIndex],
+        style: GoogleFonts.alegreya(fontSize: 26.sp),
+      ),
+      // buildIndicator(),
+    ]);
   }
 
   EdgeInsets horizontal8() => EdgeInsets.symmetric(horizontal: 8.0.w);
@@ -88,7 +89,7 @@ class _WelcomePageState extends State<WelcomePage> {
         return buildImage(urlImage, index);
       },
       options: CarouselOptions(
-        enlargeCenterPage: true,
+          enlargeCenterPage: true,
           initialPage: 0,
           onPageChanged: (index, reason) => setState(
                 (() => activeIndex = index),
@@ -149,7 +150,13 @@ class _BaslaButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const BlogPage(
+              guestUser: true,
+            ),
+          ));
+        },
         child: Container(
           decoration: ShapeDecoration(
             color: ColorUtilites.blue,

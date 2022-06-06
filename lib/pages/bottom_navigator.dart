@@ -11,6 +11,7 @@ import 'package:mentorwiseasil/pages/profile_page.dart';
 import 'package:mentorwiseasil/pages/register_page.dart';
 import 'package:mentorwiseasil/pages/welcome_page.dart';
 import 'package:mentorwiseasil/utilities/color_text_utilities1.dart';
+import 'package:mentorwiseasil/utilities/lists.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,6 +21,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  Future getDocId() async {
+    await FirebaseFirestore.instance.collection('users').get().then((snapshot) => snapshot.docs.forEach((element) {
+          
+          docIDs.add(element.reference.id);
+        }));
+  }
   final pages = [
     HomePage2(),
     MentorPage(),

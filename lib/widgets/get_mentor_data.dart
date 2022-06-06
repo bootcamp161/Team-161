@@ -40,7 +40,7 @@ class GetMentorProfileName extends StatelessWidget {
       builder: (context, snapshot) {
       if(snapshot.connectionState == ConnectionState.done) {
         Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-        return Text('${data['name']}', style: GoogleFonts.amiri(fontSize: 20.sp, fontWeight: FontWeight.bold),);
+        return Text('${data['name']}', style: GoogleFonts.amiri(fontSize: 20.sp),);
       }
       return const Text('loading');
     },);
@@ -105,7 +105,7 @@ class GetMentorImage extends StatelessWidget {
       if(snapshot.connectionState == ConnectionState.done) {
         Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
         // return widget(child: Text('${data['photoUrl']}', style: baslikStyle.copyWith(fontSize: 15),));
-        return Image.network('${data['photoUrl']}', fit: BoxFit.cover,);
+        return Image.network('${data['photoUrl']}', fit: BoxFit.fill,);
       }
       return const Text('loading');
     },);

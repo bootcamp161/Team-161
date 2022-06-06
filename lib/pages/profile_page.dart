@@ -1,95 +1,93 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mentorwiseasil/pages/mentor_profile.dart';
-import 'package:mentorwiseasil/services/firebase_api.dart';
-import 'package:mentorwiseasil/utilities/color_text_utilities1.dart';
-import 'package:mentorwiseasil/utilities/lists.dart';
-import 'package:mentorwiseasil/widgets/firebase_file.dart';
-import 'package:mentorwiseasil/widgets/get_mentor_data.dart';
 
-import '../services/storage.dart';
+import 'package:mentorwiseasil/pages/settings_page.dart';
+import 'package:mentorwiseasil/utilities/color_text_utilities1.dart';
+
+import 'package:mentorwiseasil/utilities/lists.dart';
+import 'package:mentorwiseasil/services/firebase_api.dart';
+import 'package:mentorwiseasil/widgets/get_user_name.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final user = FirebaseAuth.instance.currentUser!;
+
   Future getDocId() async {
-    await FirebaseFirestore.instance.collection('mentors').get().then((snapshot) => snapshot.docs.forEach((element) {
-          mentorIDs.add(element.reference.id);
+    await FirebaseFirestore.instance.collection('users').get().then((snapshot) => snapshot.docs.forEach((element) {
+          // print(element.reference);
+          docIDs.add(element.reference.id);
         }));
-  }
-
-  // List<String> mentorIDs = [];
-
-  late Future<List<FirebaseFile>> futureFiles;
-
-  @override
-  void initState() {
-    super.initState();
-    futureFiles = FirebaseApi.listAll('files/');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1,
-        title: Text(
-          'Mentorler',
-          style: baslikStyleBold.copyWith(fontSize: 30.sp),
+        appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      return SettingsPage();
+                    },
+                  ));
+                },
+                icon: Icon(Icons.settings))
+          ],
+          elevation: 0,
+          backgroundColor: ColorUtilites.blue,
         ),
-      ),
-      body: FutureBuilder<List<FirebaseFile>>(
-        future: futureFiles,
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            default:
-              if (snapshot.hasError) {
-                return const Center(
-                  child: Text('Hata'),
-                );
-              } else {
-                final files = snapshot.data!;
-
-                return ListView.builder(
-                  itemCount: files.length,
-                  itemBuilder: (context, index) {
-                    final file = files[index];
-
-                    return buildFile(context, file);
-                  },
-                );
-              }
-          }
-        },
-      ),
-    );
-  }
-
-  Widget buildFile(BuildContext context, FirebaseFile file) => ListTile(
-        leading: Image.network(file.url),
-        title: InkWell(
-          onTap: () {
-            print('${file.url}');
-          },
-          child: Text(
-            file.name,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              decoration: TextDecoration.underline,
-              color: Colors.blue,
+        body: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              height: 270.h,
+              decoration: BoxDecoration(
+                color: ColorUtilites.blue,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(175.r),
+                  bottomRight: Radius.circular(175.r),
+                ),
+              ),
+              child: FutureBuilder(
+                  future: getDocId(),
+                  builder: (context, snapshot) {
+                    return ListView.builder(
+                      itemCount: 1,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            SizedBox(height: 200.h, child: Image.asset('assets/images/user_profile.png')),
+                            // SizedBox(height: 5.h)
+                            Text('${user.displayName}', style: baslikStyle,)
+                          ],
+                        );
+                      },
+                    );
+                  }),
             ),
-          ),
-        ),
-      );
+            const Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Divider(
+                color: Colors.grey,
+                thickness: 1,
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.email),
+              title: Text('${user.email}')),
+           
+          ],
+        ));
+  }
 }
