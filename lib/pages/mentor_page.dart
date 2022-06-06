@@ -53,7 +53,7 @@ class _MentorPageState extends State<MentorPage> {
                   leading: SizedBox(
                     width: 75.w,
                     child: GetMentorImage(documentId: mentorIDs[index])),
-                  trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.chevron_right)),
+                  trailing: const Icon(Icons.chevron_right),
                   title: GetMentorName(documentId: mentorIDs[index]),
                 ),
               );

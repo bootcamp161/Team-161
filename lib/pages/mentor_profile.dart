@@ -63,7 +63,7 @@ class _MentorProfilePageState extends State<MentorProfilePage> {
                           height: 160.h,
                           child: Container(
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(0),
                                   border: Border.all(width: 5, color: Color(0xff343994))),
                               child: GetMentorImage(documentId: mentorIDs[widget.index]))),
                       SizedBox(height: 10.h),

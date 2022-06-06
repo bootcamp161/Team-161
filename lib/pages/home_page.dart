@@ -89,7 +89,7 @@ class _HomePage2State extends State<HomePage2> {
                                   child: Container(
                                     padding: EdgeInsets.all(12.r),
                                     decoration:
-                                        BoxDecoration(color: Color(0xffE1CBCB), borderRadius: BorderRadius.circular(15)),
+                                        BoxDecoration(color: ColorUtilites.bej, borderRadius: BorderRadius.circular(15)),
                                     child: Text('UYGULAMA HAKKINDA BİLGİLER',
                                         style: GoogleFonts.abhayaLibre(fontWeight: FontWeight.bold, fontSize: 17)),
                                   ),
@@ -103,7 +103,7 @@ class _HomePage2State extends State<HomePage2> {
                                     child: Container(
                                       padding: EdgeInsets.all(12.r),
                                       decoration: BoxDecoration(
-                                          color: Color(0xffE1CBCB), borderRadius: BorderRadius.circular(15.r)),
+                                          color: ColorUtilites.bej, borderRadius: BorderRadius.circular(15.r)),
                                       child: Text('NASIL MENTOR OLABİLİRİM?',
                                           style: GoogleFonts.abhayaLibre(fontWeight: FontWeight.bold, fontSize: 17.sp)),
                                     ),
@@ -116,7 +116,7 @@ class _HomePage2State extends State<HomePage2> {
                                   child: Container(
                                     padding: EdgeInsets.all(12.r),
                                     decoration: BoxDecoration(
-                                        color: Color(0xffE1CBCB), borderRadius: BorderRadius.circular(15.r)),
+                                        color: ColorUtilites.bej, borderRadius: BorderRadius.circular(15.r)),
                                     child: Text(
                                       'NASIL BLOG YAZILIR?',
                                       style: GoogleFonts.abhayaLibre(fontWeight: FontWeight.bold, fontSize: 17.sp),
@@ -165,8 +165,8 @@ class _HomePage2State extends State<HomePage2> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.r),
-                    color: const Color(0xffBDBDBD),
-                    border: Border.all(width: 5, color: const Color(0xff963535))),
+                    color: ColorUtilites.bej,
+                    border: Border.all(width: 5, color: const Color(0xff310707))),
                 child: Padding(padding: EdgeInsets.all(8.0.r), child: hakimizda()),
               ),
               Padding(
@@ -237,7 +237,7 @@ class _HomePage2State extends State<HomePage2> {
                                     height: 160.h,
                                     decoration: BoxDecoration(
                                         color:
-                                            index.isEven ? const Color.fromARGB(255, 119, 47, 47) : Color(0xffA77171),
+                                            index < 3 ? mentorColor[index] : mentorColor[index - 3],
                                         borderRadius: BorderRadius.circular(15.r)),
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.start,

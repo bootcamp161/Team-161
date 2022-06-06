@@ -16,6 +16,7 @@ class ColorUtilites {
   static Color textFieldBorderColor = const Color(0xff878787);
   static Color black = Colors.black;
   static Color grey = const Color(0xff848484);
+  static Color bej = const Color(0xffEBD4B6);
 }
 
 var baslikStyle = GoogleFonts.amiri(color: Colors.black, fontSize: 25.sp);
